@@ -1,8 +1,8 @@
 [
   {
     "item": 0,
-    "holding": 44.7385,
-    "attention": 4
+    "holding": 69.6008,
+    "attention": 2
   },
   {
     "item": 1,
@@ -16,22 +16,22 @@
   },
   {
     "item": 3,
-    "holding": 36.1613,
+    "holding": 21.3407,
     "attention": 3
   },
   {
     "item": 4,
-    "holding": 75.1591,
+    "holding": 159.2131,
     "attention": 9
   },
   {
     "item": 5,
-    "holding": 4.6724,
-    "attention": 1
+    "holding": 46.9433,
+    "attention": 2
   },
   {
     "item": 6,
-    "holding": 40.5213,
-    "attention": 5
+    "holding": 30.4018,
+    "attention": 6
   }
 ]

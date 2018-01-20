@@ -88,7 +88,7 @@ globalized_tracks = create_trajectories(globalized_json)
 print("Finished creating objects of class Tracks to represent visitors' trajectories!")
 
 #"outline_Yuan.R" by Yuan
-source("outline_Yuan.R")
+#source("outline_Yuan.R")
 #globalized_tracks_cleaned = outline(globalized_tracks)
 print("Finished cleaning tracks for various errors!")
 

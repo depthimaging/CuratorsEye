@@ -67,9 +67,9 @@ demarcate_stops = function(track_no, track_bunch)
   bpts = find_diffs_it(bpds)
 
 
-  source('extractMoves.R');
+  source('extractMoves.R')
   
-
+  x_df = get_x_df(bpts,bpds,egtrack)
 
   # 1
 
