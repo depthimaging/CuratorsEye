@@ -1,0 +1,37 @@
+[
+  {
+    "item": 0,
+    "holding": 44.7385,
+    "attention": 4
+  },
+  {
+    "item": 1,
+    "holding": 0,
+    "attention": 0
+  },
+  {
+    "item": 2,
+    "holding": 0,
+    "attention": 0
+  },
+  {
+    "item": 3,
+    "holding": 36.1613,
+    "attention": 3
+  },
+  {
+    "item": 4,
+    "holding": 75.1591,
+    "attention": 9
+  },
+  {
+    "item": 5,
+    "holding": 4.6724,
+    "attention": 1
+  },
+  {
+    "item": 6,
+    "holding": 40.5213,
+    "attention": 5
+  }
+]
