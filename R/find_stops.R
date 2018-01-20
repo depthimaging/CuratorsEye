@@ -41,6 +41,7 @@ find_diffs_it = function(xyb)
   return(breaklist[1:length(breaklist)])
 }
 
+
 demarcate_stops = function(track_no, track_bunch)
 {
   #In demarcate_stops!
@@ -64,6 +65,14 @@ demarcate_stops = function(track_no, track_bunch)
   bpds = as.data.frame(cbind(egtrack_coords, bool_stop))
   
   bpts = find_diffs_it(bpds)
+
+
+  source('extractMoves.R');
+  
+
+
+  # 1
+
   no_of_stop = length(bpts)/2
   
   plot(egtrack, type = 'b', main = track_no)
@@ -91,8 +100,14 @@ demarcate_stops = function(track_no, track_bunch)
       rect(xleft = affected_bbox[[stops]][1,1], ybottom = affected_bbox[[stops]][2,1], xright = affected_bbox[[stops]][1,2], ytop = affected_bbox[[stops]][2,2], col = rgb(1,0,0,0.1), border = TRUE, lwd = 2)
     }
     # bbox
+    
     bpts_df = cbind(bpts_df, as.data.frame(duration))
-  } else bpts_df = NA
-  return(bpts_df)
+
+    classify_bpts_df = new("stopmat", breaks = bpts_df ,moves = x_df)
+
+  } else {
+    classify_bpts_df = new("stopmat", breaks = NA ,moves = x_df)
+  }
+  return(classify_bpts_df)
 }
 

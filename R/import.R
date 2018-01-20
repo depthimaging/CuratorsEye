@@ -60,6 +60,7 @@ for(filename_w_path in files)
     # op <- options(digits.secs=6)
     json_data[[cid]][[tailpos]]$time = strptime(json_data[[cid]][[tailpos]]$time, format = "%H:%M:%OS")#, format = "%H:%M:%OS")
     json_data[[cid]][[tailpos]]$camera = cid
+    json_data[[cid]][[tailpos]]$t_id = tailpos
     
     #Find starting & ending times
     # print("Start time: ")

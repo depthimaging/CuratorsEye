@@ -1,4 +1,6 @@
 source("find_stops.R")
+movpat = c()
+setClass(Class = "stopmat" , slots = c("breaks","moves") )
 
 #This is for printing original globalized_tracks!!
 # for(track_id in 1:length(globalized_tracks))
@@ -10,7 +12,13 @@ stat_version = function(merged_tracks)
   breaks = list()
   for(track_id in 1:length(merged_tracks))
   {
-    breaks[[track_id]] = demarcate_stops(track_id, merged_tracks)
+    #breaks[[track_id]] = demarcate_stops(track_id, merged_tracks,movpat)
+
+    stops_return = demarcate_stops(track_id, merged_tracks)
+
+    breaks[[track_id]] = stops_return@breaks
+
+    movpat[[paste("t0",track_id,sep="")]] = stops_return@moves
     
     # #The following line for plotting globalized_tracks!
     # breaks[[track_id]] = demarcate_stops(track_id, globalized_tracks)

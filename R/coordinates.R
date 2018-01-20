@@ -38,6 +38,12 @@ er_m14 = find_mids(er_s1, er_e4)
 er_m23 = find_mids(er_s2, er_e3)
 er_m = find_mids(er_m14, er_m23)
 
+
+p1_s = c(er_e3[1] - 0.1 - 0.21, er_e3[2] + 0.15)
+p1_e = c(p1_s[1] - 0.6, p1_s[2])
+
+p0_m = c( 4.8 , 4.88 )
+
 p1_m = find_mids(p1_s, p1_e)
 
 pc_m = find_mids(pc_s, pc_e)
@@ -50,5 +56,26 @@ tv_m = find_mids(tv_s, tv_e)
 
 eb_m = find_mids(eb_s, eb_e)
 
+p4_m = c(  1.23, -0.2 )
 
 
+i1 = p0_m
+i2 = p1_m
+i3 = pc_m
+i4 = p2_m
+i5 = p3_m
+i6 = tv_m
+i7 = p4_m
+
+
+vx = c( i1[1], i2[1], 3[1],i4[1],i5[1],i6[1], i7[1])
+vy = c( i1[2], i2[2], 3[2],i4[2],i5[2],i6[2], i7[2])
+
+
+item = data.frame("e"= c("i1","i2","i3","i4","i5","i6","i7"))
+
+item$x = vx
+item$y = vy
+
+
+#plot(vx,vy)
