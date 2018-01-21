@@ -467,9 +467,9 @@ void drawIndices() {
 
   }
   
-  int attx = 150, holdy = panelY+10, holdw=60, holdh=60;
-  int holdx = 350, atty = panelY+10, attw=holdw, atth=holdh;
-  int enjx = 600, enjy = panelY+10, enjw=holdw, enjh=holdh;
+  int attx = 150, atty = panelY-10, attw=70, atth=70;
+  int holdx = 350, holdy = panelY, holdw=60, holdh=60;
+  int enjx = 600, enjy = panelY, enjw=holdw, enjh=holdh;
   
   image(attimg, attx, atty, attw, atth);
   image(holdimg, holdx, holdy, holdw, holdh);
