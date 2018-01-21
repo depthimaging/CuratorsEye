@@ -32,11 +32,13 @@ float [][]tmeta;
 
 String start_time, end_time;                    // Starting and ending time of all tracks in the file
 
+int top_line = 150;
+
 int text_oX = 30;
-int text_oY = 70;
+int text_oY = 70+top_line;
 
 int pieX = 600;
-int pieY = 175;
+int pieY = 175+top_line;
 
 
 //int oX =900;
@@ -55,7 +57,7 @@ int ht = 615;
 //---------------------------------
 // interface. buttons
 //---------------------------------
-int rectX1 = 150, rectY1 = 46;      // Position of square button
+int rectX1 = 150, rectY1 = 46+top_line;      // Position of square button
 int rectX2 = 270, rectY2 = rectY1;      // Position of square button
 int rectSizeW = 50;     // Diameter of rect
 int rectSizeH = 35;     // Diameter of rect
@@ -72,9 +74,9 @@ color heatHighlight = color(100,100,100);
 boolean heatOver = false;
 //
 // normal button
-int norX = 220, norY = heatY;      // Position of square button
-int norW = 190;     // Diameter of rect
-int norH = 35;     // Diameter of rect
+int norX = 30, norY = heatY;      // Position of square button
+int norW = 390;     // Diameter of rect
+int norH = 50;     // Diameter of rect
 color norColor = color(222);
 color norHighlight = color(100,100,100);
 boolean norOver = false;
@@ -105,6 +107,9 @@ int nstops = 0;
 
 
 PImage timebg;
+
+PImage wwu;
+PImage ifgi;
 
 
 PImage jelly;
@@ -147,6 +152,10 @@ void reset() {
   attimg = loadImage("attimg.png");
   enjimg = loadImage("enjimg.png");
   
+  wwu = loadImage("wwu.png");
+  ifgi = loadImage("ifgi.png");
+  
+  
   jelly.resize(width, height);
   background(jelly);
   loadData();  
@@ -161,6 +170,7 @@ void reset() {
   //   int x = curTrk+1;
      
   // }
+  
   if(curTrk>-1) {
     
     int x = curTrk + 1;
@@ -178,12 +188,24 @@ void reset() {
       background(jelly);
       loadMetadata("t0"+x);
       drawIndices();
-      
+      //curTrk = i;
+      //draw();
     }
     
     drawMov(text_oX+10,text_oY+80 );
  
   }
+  
+  fill(255);
+  rect(0, 0, 760,120);
+  image(wwu, 10, 10, 260, 90);
+  image(ifgi, 360, 10, 260, 90);
+  
+  stroke(255); 
+  line(text_oX-10, text_oY-50,text_oX+700, text_oY-50);
+  line(text_oX+400, text_oY-50,text_oX+400, text_oY+300);
+  line(text_oX-10, text_oY+300,text_oX+700, text_oY+300);
+  
 }
 
 
@@ -347,10 +369,10 @@ void drawInterface() {
   if(heatOver){
     fill(rectColor); 
   }
-  rect(heatX, heatY, heatW, heatH);
+  //rect(heatX, heatY, heatW, heatH);
   textSize(28);
   fill(255,255,255);
-  text("Heat Map", heatX+10, heatY+27);
+  //text("Heat Map", heatX+10, heatY+27);
   
   
   // normal map button
@@ -361,7 +383,7 @@ void drawInterface() {
   rect(norX, norY, norW, norH);
   textSize(28);
   fill(255,255,255);
-  text("Aggregation", norX+10, norY+27);
+  text("Aggregation", norX+100, norY+ 35);
 }
 
 void draw() {
@@ -377,7 +399,31 @@ void draw() {
     return;
   }
 
-  //for (int i = 0; i < lenght.length; i++) {
+  if (i == -2 ){
+    for (i = 0; i < lenght.length; i++) {
+    try {
+      float xes = x_coord[i][count[i]]*Okx+trx;
+      float yes = y_coord[i][count[i]]*Ok;
+      // oX+ (x*Ok)
+  
+      stroke(speed[i][count[i]]*255,255*speed[i][count[i]],0);
+      
+      fill((1-speed[i][count[i]])*255,255*speed[i][count[i]],0);
+
+      if (count[i]<lenght[i]-1) 
+        line(oX+xes, oY-yes, oX+(x_coord[i][count[i]+1]*Okx+trx), oY-(y_coord[i][count[i]+1]*Ok));
+
+      //println("color i,count[i] : ",speed[i][count[i]]," , i=",i," , count[i]= ",count[i]);      
+      noStroke();
+      ellipse(oX+xes, oY-yes, 10, 10);
+
+      count[i]++;
+    } 
+    catch (Exception e) {
+    };
+    }
+    i=-2;
+  }
 
   //color trkColor = color( (i%3)* 255, ((i+1)%3) * 255, ((i+2)%3) * 255 );
 
@@ -389,8 +435,10 @@ void draw() {
       float yes = y_coord[i][count[i]]*Ok;
       // oX+ (x*Ok)
   
-      stroke(speed[i][count[i]]*255,40*speed[i][count[i]],0);
-      fill(speed[i][count[i]]*255,40*speed[i][count[i]],0);
+      stroke(speed[i][count[i]]*255,255*speed[i][count[i]],0);
+      
+      fill((1-speed[i][count[i]])*255,255*speed[i][count[i]],0);
+
       if (count[i]<lenght[i]-1) 
         line(oX+xes, oY-yes, oX+(x_coord[i][count[i]+1]*Okx+trx), oY-(y_coord[i][count[i]+1]*Ok));
 
@@ -417,7 +465,6 @@ void draw() {
   
   drawMov(text_oX+10,text_oY+80 );
   
-  
 } 
 int holdingAgg = 0;
 
@@ -429,7 +476,7 @@ void drawIndices() {
   int items[] = { 0,0,0,0,0,0,0 };
   // items panel //<>//
   noFill();
-  int panelX = 20, panelY = 400;
+  int panelX = 20, panelY = 400+top_line;
   
   //rect(panelX, panelY, 800, 470);
   noStroke();
@@ -470,8 +517,12 @@ void drawIndices() {
   for(int l=0;l<items.length;l++)
   {    
     // in table
-    
+    float holding_power = items[l];
     fill(0,40,200);
+    if((holding_power==0 && agg==false) || (agg==true && itemsAgg[l][1]==0)) {      
+      fill(0,40,20);
+    }
+    
     rect(panelX+4, panelY+panel_offset+((l+1)*panel_scale), 700, panel_scale-8);
     
     fill(255);
@@ -483,7 +534,7 @@ void drawIndices() {
     popStyle();
     
     fill(255);
-    float holding_power = items[l];
+    
     if(agg == true) {
       holAngles[l] = (int) (itemsAgg[l][1]/lenght.length * 3.6);
       attAngles[l] = (int) (itemsAgg[l][2] * 3.6);
@@ -515,13 +566,13 @@ void drawIndices() {
     
     if(agg == true) {
       //println("dfghjklkjkhg " ,itemsAgg[l][1]*5);
-      fill(255,0,0, 70);
-      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), itemsAgg[l][1], itemsAgg[l][1]);
+      fill(255,70);
+      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), itemsAgg[l][1]*0.6, itemsAgg[l][1]*0.6);
       fill(255,255,0, 120);
-      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), (int)itemsAgg[l][2], (int)itemsAgg[l][2]);
+      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), (int)itemsAgg[l][2]*2, (int)itemsAgg[l][2]*2);
     } else {
       fill(255,255,0, 120);
-      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), holding_power, holding_power);
+      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), holding_power*2, holding_power*2);
     }
 
   }
@@ -759,11 +810,15 @@ void mousePressed() {
     currentColor = rectColor;
     doreset = true;
     curTrk = curTrk-1;
+    doreset = true;
+    agg = false;
   }
   if (rectOver2) {
     currentColor = rectColor;
     doreset = true;
     curTrk = curTrk+1;
+    doreset = true;
+     agg = false;
   }
   if (curTrk<0) {
     curTrk = lenght.length-1;
