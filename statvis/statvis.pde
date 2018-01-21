@@ -35,8 +35,8 @@ String start_time, end_time;                    // Starting and ending time of a
 int text_oX = 30;
 int text_oY = 70;
 
-int pieX = 180;
-int pieY = 450;
+int pieX = 600;
+int pieY = 175;
 
 
 //int oX =900;
@@ -180,6 +180,7 @@ void reset() {
       drawIndices();
       
     }
+    
     drawMov(text_oX+10,text_oY+80 );
  
   }
@@ -237,17 +238,29 @@ void pieChart(float diameter, int[] data,boolean stop, int ox, int oy) {
   noStroke();
   for (int i = 0; i < data.length; i++) {
     if (stop == false) {
-      fill(255, 0, 0);
+      fill(155, 20, 10);
     } else {
-      fill(255);
+      fill(0,200,10);
     }
-    stop = !stop;
+    if(agg == false) {
+      stop = !stop;
+    }
     if(data[i]==0) {
        data[i] = 1;
     }
-    arc(ox+560, oy+30, diameter, diameter, lastAngle, lastAngle+radians(data[i]));
+    //arc(ox+560, oy+30, diameter, diameter, lastAngle, lastAngle+radians(data[i]));
+    arc(pieX,pieY, diameter, diameter, lastAngle, lastAngle+radians(data[i]));
 
     lastAngle += radians(data[i]);
+    
+    if(i==data.length-1 && agg == true) {
+      pushStyle();
+      fill(0,200,0);
+      //arc(ox+560, oy+30, diameter, diameter, lastAngle, lastAngle+radians(data[i]));
+      arc(pieX,pieY, diameter, diameter, lastAngle, lastAngle+radians(data[i]));
+      
+      popStyle();
+    }
   }
 }
 
@@ -448,39 +461,54 @@ void drawIndices() {
  }
   
   //holdingAgg = 0;
+  int [] holAngles = new int[items.length];
+  int [] attAngles = new int[items.length];
+  
+  int panel_offset = 55;
+  int panel_scale = 50;
   
   for(int l=0;l<items.length;l++)
   {    
     // in table
     
     fill(0,40,200);
-    rect(panelX+4, panelY+6+((l+1)*75), 700, 65);
+    rect(panelX+4, panelY+panel_offset+((l+1)*panel_scale), 700, panel_scale-8);
     
     fill(255);
-    ellipse(panelX+40, panelY+36+((l+1)*75), 50, 50);
+    ellipse(panelX+40, panelY+panel_offset+20+((l+1)*panel_scale), 25, 25);
     fill(100);
-    text(l+1,panelX+32,panelY+45+((l+1)*75));
+    pushStyle();
+    textSize(18);
+    text(l+1,panelX+34,panelY+panel_offset+27+((l+1)*panel_scale));
+    popStyle();
     
     fill(255);
     float holding_power = items[l];
     if(agg == true) {
-    
-      text( (int) itemsAgg[l][1]/lenght.length,panelX+340,panelY+45+((l+1)*75));
-      text( (int) itemsAgg[l][2],panelX+150,panelY+45+((l+1)*75));
+      holAngles[l] = (int) (itemsAgg[l][1]/lenght.length * 3.6);
+      attAngles[l] = (int) (itemsAgg[l][2] * 3.6);
+      
+      text( (int) itemsAgg[l][1]/lenght.length,panelX+350,panelY+panel_offset+30+((l+1)*panel_scale));
+      text( (int) itemsAgg[l][2],panelX+150,panelY+panel_offset+30+((l+1)*panel_scale));
       //println("itemsAgg[",l,"][1]= ",itemsAgg[l][1]);
       //println("itemsAgg[",l,"][2]= ",itemsAgg[l][2]);
     } else {
       
-      text((int)holding_power,panelX+340,panelY+45+((l+1)*75));
+      text((int)holding_power,panelX+340,panelY+panel_offset+30+((l+1)*panel_scale));
       if(holding_power>0) {
-        text("100",panelX+ 150,panelY+45+((l+1)*75));
+        text("100",panelX+ 150,panelY+panel_offset+30+((l+1)*panel_scale));
       } else {
-        text("0",panelX+150,panelY+45+((l+1)*75));
+        text("0",panelX+150,panelY+panel_offset+30+((l+1)*panel_scale));
       }
       
     }
+    text("neutral",panelX+550,panelY+panel_offset+30+((l+1)*panel_scale));
     
-    text("neutral",panelX+550,panelY+45+((l+1)*75));
+    
+    pieChart(250, holAngles,false,oX,oY);
+    
+    
+    
    
     if(itemsx[l]==0 && itemsy[l]==0) continue;
     
@@ -498,9 +526,9 @@ void drawIndices() {
 
   }
   
-  int attx = 150, atty = panelY-10, attw=70, atth=70;
-  int holdx = 350, holdy = panelY, holdw=60, holdh=60;
-  int enjx = 580, enjy = panelY, enjw=holdw, enjh=holdh;
+  int attx = 150, atty = panelY+15, attw=70, atth=70;
+  int holdx = 350, holdy = panelY+15, holdw=60, holdh=60;
+  int enjx = 580, enjy = panelY+15, enjw=holdw, enjh=holdh;
   
   image(attimg, attx, atty, attw, atth);
   image(holdimg, holdx, holdy, holdw, holdh);
