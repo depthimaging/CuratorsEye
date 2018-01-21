@@ -1,13 +1,8 @@
 [
   {
-    "item": 0,
-    "holding": 69.6008,
-    "attention": 2
-  },
-  {
     "item": 1,
-    "holding": 0,
-    "attention": 0
+    "holding": 42,
+    "attention": 5
   },
   {
     "item": 2,
@@ -16,22 +11,27 @@
   },
   {
     "item": 3,
-    "holding": 21.3407,
-    "attention": 3
+    "holding": 85,
+    "attention": 18
   },
   {
     "item": 4,
-    "holding": 159.2131,
-    "attention": 9
+    "holding": 0,
+    "attention": 0
   },
   {
     "item": 5,
-    "holding": 46.9433,
-    "attention": 2
+    "holding": 251,
+    "attention": 41
   },
   {
     "item": 6,
-    "holding": 30.4018,
-    "attention": 6
+    "holding": 50,
+    "attention": 9
+  },
+  {
+    "item": 7,
+    "holding": 169,
+    "attention": 27
   }
 ]

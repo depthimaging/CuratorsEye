@@ -117,7 +117,7 @@ int total_people=0;
 int total_visits=0;
 
 //----------
-float itemsAgg[][];
+int itemsAgg[][];
 
 float itemsx[] = { 0,0,0,0,0,0,0 };
 float itemsy[] = { 0,0,0,0,0,0,0 };
@@ -169,6 +169,10 @@ void reset() {
     
   } else if ( curTrk == -2) {
     
+    aggn_stops = 0;
+    aggn_moves = 0;
+    aggtotal = 0;
+  
     for(int i =0;i< lenght.length ; i++) {
       int x = i + 1;
       background(jelly);
@@ -176,6 +180,8 @@ void reset() {
       drawIndices();
       
     }
+    drawMov(text_oX+10,text_oY+80 );
+ 
   }
 }
 
@@ -264,15 +270,20 @@ void drawSummary(int curtrkColor) {
 void drawMov(int oX, int oY) {
   try {
     
-  int total=0;
-  int n_stops = 0,n_moves=0;
-  for(int i=0;i< tmeta.length;i++) {
-    if(tmeta[i][0] == 1 ) {
-      n_stops += tmeta[i][2];
-    } else {
-      n_moves += tmeta[i][2];
+  int total= aggtotal;
+  
+  int n_stops = aggn_stops/lenght.length,n_moves= aggn_moves/lenght.length;
+  
+  if(agg == false){
+    total = 0; n_stops = 0; n_moves = 0;
+    for(int i=0;i< tmeta.length;i++) {
+      if(tmeta[i][0] == 1 ) {
+        n_stops += tmeta[i][2];
+      } else {
+        n_moves += tmeta[i][2];
+      }
+      total += tmeta[i][1]; 
     }
-    total += tmeta[i][1]; 
   }
   
   fill(255); 
@@ -289,7 +300,9 @@ void drawMov(int oX, int oY) {
   fill(255); 
   text(n_stops+ " %", oX+300, oY+130);  
   
-  getStopTimes(curTrk,oX,oY);
+  if(agg == false) {
+    getStopTimes(curTrk,oX,oY);
+  }
   
   } catch (Exception e) {}
 }
@@ -394,6 +407,10 @@ void draw() {
   
 } 
 int holdingAgg = 0;
+
+int aggtotal=0;  
+int aggn_stops = 0,aggn_moves=0;
+
 void drawIndices() {
  
   int items[] = { 0,0,0,0,0,0,0 };
@@ -406,8 +423,20 @@ void drawIndices() {
   
     
   int k=0;
+  
+
  for(int i=0;i<tmeta.length;i++) {
-   k = (int) tmeta[i][3]-1;
+    //println("tmeta[",i,"][0] = ",tmeta[i][0]);
+    if(tmeta[i][0] == 1 ) {
+      aggn_stops += tmeta[i][2];
+    } else {
+      //println("not stop: tmeta[",i,"][2]= ",tmeta[i][2]);
+      aggn_moves += tmeta[i][2];
+      //println("aggn_moves = ",aggn_moves);
+    }
+    aggtotal += tmeta[i][1];
+    
+    k = (int) tmeta[i][3]-1;
    if(k==-1) continue;
    
    //println("k:= ",k);
@@ -415,9 +444,9 @@ void drawIndices() {
      
    itemsx[k] = tmeta[i][4];
    itemsy[k] = tmeta[i][5];
+   
  }
- 
- 
+  
   //holdingAgg = 0;
   
   for(int l=0;l<items.length;l++)
@@ -436,11 +465,13 @@ void drawIndices() {
     float holding_power = items[l];
     if(agg == true) {
     
-      text(itemsAgg[l][1],panelX+320,panelY+45+((l+1)*75));
-      text(itemsAgg[l][2],panelX+120,panelY+45+((l+1)*75));
+      text( (int) itemsAgg[l][1]/lenght.length,panelX+340,panelY+45+((l+1)*75));
+      text( (int) itemsAgg[l][2],panelX+150,panelY+45+((l+1)*75));
+      //println("itemsAgg[",l,"][1]= ",itemsAgg[l][1]);
+      //println("itemsAgg[",l,"][2]= ",itemsAgg[l][2]);
     } else {
       
-      text(holding_power,panelX+320,panelY+45+((l+1)*75));
+      text((int)holding_power,panelX+340,panelY+45+((l+1)*75));
       if(holding_power>0) {
         text("100",panelX+ 150,panelY+45+((l+1)*75));
       } else {
@@ -449,17 +480,17 @@ void drawIndices() {
       
     }
     
-    text("20",panelX+600,panelY+45+((l+1)*75));
+    text("neutral",panelX+550,panelY+45+((l+1)*75));
    
     if(itemsx[l]==0 && itemsy[l]==0) continue;
     
     
     if(agg == true) {
-      println("dfghjklkjkhg " ,itemsAgg[l][1]*5);
+      //println("dfghjklkjkhg " ,itemsAgg[l][1]*5);
       fill(255,0,0, 70);
-      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), (int)itemsAgg[l][1]*2, (int)itemsAgg[l][1]*2);
+      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), itemsAgg[l][1], itemsAgg[l][1]);
       fill(255,255,0, 120);
-      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), (int)itemsAgg[l][2]*5, (int)itemsAgg[l][2]*5);
+      ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), (int)itemsAgg[l][2], (int)itemsAgg[l][2]);
     } else {
       fill(255,255,0, 120);
       ellipse(oX+ (itemsx[l]*Okx)+trx, oY- (itemsy[l]*Ok), holding_power, holding_power);
@@ -469,7 +500,7 @@ void drawIndices() {
   
   int attx = 150, atty = panelY-10, attw=70, atth=70;
   int holdx = 350, holdy = panelY, holdw=60, holdh=60;
-  int enjx = 600, enjy = panelY, enjw=holdw, enjh=holdh;
+  int enjx = 580, enjy = panelY, enjw=holdw, enjh=holdh;
   
   image(attimg, attx, atty, attw, atth);
   image(holdimg, holdx, holdy, holdw, holdh);
@@ -534,7 +565,7 @@ void loadMetadata(String trk){
   meta = loadJSONObject(metadata);  
   JSONObject s = meta.getJSONObject("tracks");
   
-  println("  ppppaream: ",trk);
+  //println("  ppppaream: ",trk);
   JSONArray track = s.getJSONArray(trk);  
   tmeta = new float[track.size()][6];
   
@@ -628,18 +659,20 @@ void loadData() {
   
   JSONArray aggstats = loadJSONArray(metastats);
   
-  itemsAgg = new float[aggstats.size()][3];
+  itemsAgg = new int[aggstats.size()][3];
   
   
   
   for(int i=0;i<aggstats.size();i++) {
     int itemIndex = aggstats.getJSONObject(i).getInt("item");
-    float holding = aggstats.getJSONObject(i).getInt("holding");
-    float attention = aggstats.getJSONObject(i).getInt("attention");
+    int holding = aggstats.getJSONObject(i).getInt("holding");
+    int attention = aggstats.getJSONObject(i).getInt("attention");
     
-    itemsAgg[i][0] = itemIndex;
-    itemsAgg[i][1] = holding;
-    itemsAgg[i][2] = attention;    
+    itemsAgg[itemIndex-1][0] = itemIndex;
+    itemsAgg[itemIndex-1][1] += holding;
+    itemsAgg[itemIndex-1][2] += attention;
+    
+    //  println("itemsAgg[i][2] = ",itemsAgg[i][2]);
   }
   
     

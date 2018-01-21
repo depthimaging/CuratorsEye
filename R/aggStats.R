@@ -59,7 +59,7 @@ getTracks = function(egtrack,bpts_df)
       
       
       
-        return_temp =  temp
+      return_temp =  temp
     }
     return(return_temp)
 }

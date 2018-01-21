@@ -16,6 +16,8 @@ stat_version = function(merged_tracks)
   l = c()
   
   breaks = list()
+  valid_tracks = 1
+  
   for(track_id in 1:length(merged_tracks))
   {
     #breaks[[track_id]] = demarcate_stops(track_id, merged_tracks,movpat)
@@ -24,10 +26,11 @@ stat_version = function(merged_tracks)
 
     breaks[[track_id]] = stops_return@breaks
 
-    movpat[[paste("t0",track_id,sep="")]] = stops_return@moves
-    
-    
-    l[[paste("t0",track_id,sep="")]] = getTracks(merged_tracks[[track_id]],stops_return@breaks)
+    if(dim(stops_return@moves)[1]>0) {
+    movpat[[paste("t0",valid_tracks,sep="")]] = stops_return@moves
+      l[[paste("t0",valid_tracks,sep="")]] = getTracks(merged_tracks[[track_id]],stops_return@breaks)
+      valid_tracks = valid_tracks+1
+    }
 
     # #The following line for plotting globalized_tracks!
     # breaks[[track_id]] = demarcate_stops(track_id, globalized_tracks)
