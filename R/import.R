@@ -6,6 +6,7 @@ library('jsonlite')
 json_data = list(c1 = list(), c2 = list(), c4 = list())
 
 files = list.files(path = "Experiments/", pattern = "*.json", recursive = TRUE, full.names = TRUE)
+# files = list.files(path = "ExperimentsTrials/", pattern = "*.json", recursive = TRUE, full.names = TRUE)
 
 for(filename_w_path in files)
 {
@@ -60,7 +61,6 @@ for(filename_w_path in files)
     # op <- options(digits.secs=6)
     json_data[[cid]][[tailpos]]$time = strptime(json_data[[cid]][[tailpos]]$time, format = "%H:%M:%OS")#, format = "%H:%M:%OS")
     json_data[[cid]][[tailpos]]$camera = cid
-    json_data[[cid]][[tailpos]]$t_id = tailpos
     
     #Find starting & ending times
     # print("Start time: ")
@@ -88,7 +88,7 @@ globalized_tracks = create_trajectories(globalized_json)
 print("Finished creating objects of class Tracks to represent visitors' trajectories!")
 
 #"outline_Yuan.R" by Yuan
-#source("outline_Yuan.R")
+source("outline_Yuan.R")
 #globalized_tracks_cleaned = outline(globalized_tracks)
 print("Finished cleaning tracks for various errors!")
 
