@@ -44,7 +44,8 @@ xxx$tracks= movpat
 meta = toJSON(xxx, pretty = T)
 writeLines(meta, paste("../statvis","/data/meta.json",sep="") )
 
-
+l[[3]][["x"]][42] = l[[3]][["x"]][41]
+l[[3]][["y"]][42] = l[[3]][["y"]][41]
 newd = toJSON(l, pretty = T)
 writeLines(newd, paste("../statvis","/data/out.json",sep="") )
 

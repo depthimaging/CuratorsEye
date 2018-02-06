@@ -555,9 +555,21 @@ void drawIndices() {
     }
     text("neutral",panelX+550,panelY+panel_offset+30+((l+1)*panel_scale));
     
+    if(agg==true){
+     //println("holAngles[0]= ",holAngles[0]);
+     //println("holAngles[1]= ",holAngles[1]);
+     //println("holAngles[2]= ",holAngles[2]);
+     //println("holAngles[4]= ",holAngles[3]);
     
-    pieChart(250, holAngles,false,oX,oY);
-    
+    }
+    if(agg == true) {
+     int []maat = new int[2];
+     maat[0] = 297;
+     maat[1] = 50;
+     pieChart(250, maat,false,oX,oY);
+    } else {
+      pieChart(250, holAngles,false,oX,oY);
+    }
     
     
    
